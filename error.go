@@ -655,6 +655,23 @@ func (e MessageTooLargeError) Error() string {
 	return MessageSizeTooLarge.Error()
 }
 
+type UnknownTopicOrPartitionError struct {
+	Topic     string
+	Partition *int
+}
+
+func unknownTopicOrPartition(topic string, partition *int) UnknownTopicOrPartitionError {
+	return UnknownTopicOrPartitionError{Topic: topic, Partition: partition}
+}
+
+func (e UnknownTopicOrPartitionError) Error() string {
+	return UnknownTopicOrPartition.Error()
+}
+
+func (e UnknownTopicOrPartitionError) Is(err error) bool {
+	return errors.Is(err, UnknownTopicOrPartition)
+}
+
 func makeError(code int16, message string) error {
 	if code == 0 {
 		return nil

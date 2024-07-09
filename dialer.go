@@ -195,7 +195,7 @@ func (d *Dialer) LookupPartition(ctx context.Context, network string, address st
 			}
 		}
 
-		errch <- UnknownTopicOrPartition
+		errch <- unknownTopicOrPartition(topic, &partition)
 	}()
 
 	var prt Partition

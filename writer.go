@@ -765,7 +765,7 @@ func (w *Writer) partitions(ctx context.Context, topic string) (int, error) {
 			return len(t.Partitions), nil
 		}
 	}
-	return 0, UnknownTopicOrPartition
+	return 0, unknownTopicOrPartition(topic, nil)
 }
 
 func (w *Writer) client(timeout time.Duration) *Client {
