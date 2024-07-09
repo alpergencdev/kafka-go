@@ -669,7 +669,16 @@ func (e UnknownTopicOrPartitionError) Error() string {
 }
 
 func (e UnknownTopicOrPartitionError) Is(err error) bool {
-	return errors.Is(err, UnknownTopicOrPartition)
+	if err == UnknownTopicOrPartition {
+		return true
+	}
+
+	var unknownTopicOrPartitionError UnknownTopicOrPartitionError
+	return errors.As(err, &unknownTopicOrPartitionError)
+}
+
+func (e UnknownTopicOrPartitionError) Title() string {
+	return UnknownTopicOrPartition.Title()
 }
 
 func makeError(code int16, message string) error {
