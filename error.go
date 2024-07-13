@@ -681,6 +681,18 @@ func (e UnknownTopicOrPartitionError) Title() string {
 	return UnknownTopicOrPartition.Title()
 }
 
+func (e UnknownTopicOrPartitionError) Description() string {
+	return UnknownTopicOrPartition.Description()
+}
+
+func (e UnknownTopicOrPartitionError) Timeout() bool {
+	return UnknownTopicOrPartition.Timeout()
+}
+
+func (e UnknownTopicOrPartitionError) Temporary() bool {
+	return UnknownTopicOrPartition.Temporary()
+}
+
 func makeError(code int16, message string) error {
 	if code == 0 {
 		return nil
