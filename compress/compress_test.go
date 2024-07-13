@@ -467,7 +467,7 @@ func newLocalClientAndTopic() (*kafka.Client, string, func()) {
 
 	// Topic creation seems to be asynchronous. Metadata for the topic partition
 	// layout in the cluster is available in the controller before being synced
-	// with the other brokers, which causes "Error:[3] Unknown Topic Or Partition"
+	// with the other brokers, which causes "KafkaError:[3] Unknown Topic Or Partition"
 	// when sending requests to the partition leaders.
 	for i := 0; i < 20; i++ {
 		r, err := client.Fetch(context.Background(), &kafka.FetchRequest{

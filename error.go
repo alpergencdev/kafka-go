@@ -7,127 +7,127 @@ import (
 	"syscall"
 )
 
-// Error represents the different error codes that may be returned by kafka.
+// KafkaError represents the different error codes that may be returned by kafka.
 // https://kafka.apache.org/protocol#protocol_error_codes
-type Error int
+type KafkaError int
 
 const (
-	Unknown                            Error = -1
-	OffsetOutOfRange                   Error = 1
-	InvalidMessage                     Error = 2
-	UnknownTopicOrPartition            Error = 3
-	InvalidMessageSize                 Error = 4
-	LeaderNotAvailable                 Error = 5
-	NotLeaderForPartition              Error = 6
-	RequestTimedOut                    Error = 7
-	BrokerNotAvailable                 Error = 8
-	ReplicaNotAvailable                Error = 9
-	MessageSizeTooLarge                Error = 10
-	StaleControllerEpoch               Error = 11
-	OffsetMetadataTooLarge             Error = 12
-	NetworkException                   Error = 13
-	GroupLoadInProgress                Error = 14
-	GroupCoordinatorNotAvailable       Error = 15
-	NotCoordinatorForGroup             Error = 16
-	InvalidTopic                       Error = 17
-	RecordListTooLarge                 Error = 18
-	NotEnoughReplicas                  Error = 19
-	NotEnoughReplicasAfterAppend       Error = 20
-	InvalidRequiredAcks                Error = 21
-	IllegalGeneration                  Error = 22
-	InconsistentGroupProtocol          Error = 23
-	InvalidGroupId                     Error = 24
-	UnknownMemberId                    Error = 25
-	InvalidSessionTimeout              Error = 26
-	RebalanceInProgress                Error = 27
-	InvalidCommitOffsetSize            Error = 28
-	TopicAuthorizationFailed           Error = 29
-	GroupAuthorizationFailed           Error = 30
-	ClusterAuthorizationFailed         Error = 31
-	InvalidTimestamp                   Error = 32
-	UnsupportedSASLMechanism           Error = 33
-	IllegalSASLState                   Error = 34
-	UnsupportedVersion                 Error = 35
-	TopicAlreadyExists                 Error = 36
-	InvalidPartitionNumber             Error = 37
-	InvalidReplicationFactor           Error = 38
-	InvalidReplicaAssignment           Error = 39
-	InvalidConfiguration               Error = 40
-	NotController                      Error = 41
-	InvalidRequest                     Error = 42
-	UnsupportedForMessageFormat        Error = 43
-	PolicyViolation                    Error = 44
-	OutOfOrderSequenceNumber           Error = 45
-	DuplicateSequenceNumber            Error = 46
-	InvalidProducerEpoch               Error = 47
-	InvalidTransactionState            Error = 48
-	InvalidProducerIDMapping           Error = 49
-	InvalidTransactionTimeout          Error = 50
-	ConcurrentTransactions             Error = 51
-	TransactionCoordinatorFenced       Error = 52
-	TransactionalIDAuthorizationFailed Error = 53
-	SecurityDisabled                   Error = 54
-	BrokerAuthorizationFailed          Error = 55
-	KafkaStorageError                  Error = 56
-	LogDirNotFound                     Error = 57
-	SASLAuthenticationFailed           Error = 58
-	UnknownProducerId                  Error = 59
-	ReassignmentInProgress             Error = 60
-	DelegationTokenAuthDisabled        Error = 61
-	DelegationTokenNotFound            Error = 62
-	DelegationTokenOwnerMismatch       Error = 63
-	DelegationTokenRequestNotAllowed   Error = 64
-	DelegationTokenAuthorizationFailed Error = 65
-	DelegationTokenExpired             Error = 66
-	InvalidPrincipalType               Error = 67
-	NonEmptyGroup                      Error = 68
-	GroupIdNotFound                    Error = 69
-	FetchSessionIDNotFound             Error = 70
-	InvalidFetchSessionEpoch           Error = 71
-	ListenerNotFound                   Error = 72
-	TopicDeletionDisabled              Error = 73
-	FencedLeaderEpoch                  Error = 74
-	UnknownLeaderEpoch                 Error = 75
-	UnsupportedCompressionType         Error = 76
-	StaleBrokerEpoch                   Error = 77
-	OffsetNotAvailable                 Error = 78
-	MemberIDRequired                   Error = 79
-	PreferredLeaderNotAvailable        Error = 80
-	GroupMaxSizeReached                Error = 81
-	FencedInstanceID                   Error = 82
-	EligibleLeadersNotAvailable        Error = 83
-	ElectionNotNeeded                  Error = 84
-	NoReassignmentInProgress           Error = 85
-	GroupSubscribedToTopic             Error = 86
-	InvalidRecord                      Error = 87
-	UnstableOffsetCommit               Error = 88
-	ThrottlingQuotaExceeded            Error = 89
-	ProducerFenced                     Error = 90
-	ResourceNotFound                   Error = 91
-	DuplicateResource                  Error = 92
-	UnacceptableCredential             Error = 93
-	InconsistentVoterSet               Error = 94
-	InvalidUpdateVersion               Error = 95
-	FeatureUpdateFailed                Error = 96
-	PrincipalDeserializationFailure    Error = 97
-	SnapshotNotFound                   Error = 98
-	PositionOutOfRange                 Error = 99
-	UnknownTopicID                     Error = 100
-	DuplicateBrokerRegistration        Error = 101
-	BrokerIDNotRegistered              Error = 102
-	InconsistentTopicID                Error = 103
-	InconsistentClusterID              Error = 104
-	TransactionalIDNotFound            Error = 105
-	FetchSessionTopicIDError           Error = 106
+	Unknown                            KafkaError = -1
+	OffsetOutOfRange                   KafkaError = 1
+	InvalidMessage                     KafkaError = 2
+	UnknownTopicOrPartition            KafkaError = 3
+	InvalidMessageSize                 KafkaError = 4
+	LeaderNotAvailable                 KafkaError = 5
+	NotLeaderForPartition              KafkaError = 6
+	RequestTimedOut                    KafkaError = 7
+	BrokerNotAvailable                 KafkaError = 8
+	ReplicaNotAvailable                KafkaError = 9
+	MessageSizeTooLarge                KafkaError = 10
+	StaleControllerEpoch               KafkaError = 11
+	OffsetMetadataTooLarge             KafkaError = 12
+	NetworkException                   KafkaError = 13
+	GroupLoadInProgress                KafkaError = 14
+	GroupCoordinatorNotAvailable       KafkaError = 15
+	NotCoordinatorForGroup             KafkaError = 16
+	InvalidTopic                       KafkaError = 17
+	RecordListTooLarge                 KafkaError = 18
+	NotEnoughReplicas                  KafkaError = 19
+	NotEnoughReplicasAfterAppend       KafkaError = 20
+	InvalidRequiredAcks                KafkaError = 21
+	IllegalGeneration                  KafkaError = 22
+	InconsistentGroupProtocol          KafkaError = 23
+	InvalidGroupId                     KafkaError = 24
+	UnknownMemberId                    KafkaError = 25
+	InvalidSessionTimeout              KafkaError = 26
+	RebalanceInProgress                KafkaError = 27
+	InvalidCommitOffsetSize            KafkaError = 28
+	TopicAuthorizationFailed           KafkaError = 29
+	GroupAuthorizationFailed           KafkaError = 30
+	ClusterAuthorizationFailed         KafkaError = 31
+	InvalidTimestamp                   KafkaError = 32
+	UnsupportedSASLMechanism           KafkaError = 33
+	IllegalSASLState                   KafkaError = 34
+	UnsupportedVersion                 KafkaError = 35
+	TopicAlreadyExists                 KafkaError = 36
+	InvalidPartitionNumber             KafkaError = 37
+	InvalidReplicationFactor           KafkaError = 38
+	InvalidReplicaAssignment           KafkaError = 39
+	InvalidConfiguration               KafkaError = 40
+	NotController                      KafkaError = 41
+	InvalidRequest                     KafkaError = 42
+	UnsupportedForMessageFormat        KafkaError = 43
+	PolicyViolation                    KafkaError = 44
+	OutOfOrderSequenceNumber           KafkaError = 45
+	DuplicateSequenceNumber            KafkaError = 46
+	InvalidProducerEpoch               KafkaError = 47
+	InvalidTransactionState            KafkaError = 48
+	InvalidProducerIDMapping           KafkaError = 49
+	InvalidTransactionTimeout          KafkaError = 50
+	ConcurrentTransactions             KafkaError = 51
+	TransactionCoordinatorFenced       KafkaError = 52
+	TransactionalIDAuthorizationFailed KafkaError = 53
+	SecurityDisabled                   KafkaError = 54
+	BrokerAuthorizationFailed          KafkaError = 55
+	KafkaStorageError                  KafkaError = 56
+	LogDirNotFound                     KafkaError = 57
+	SASLAuthenticationFailed           KafkaError = 58
+	UnknownProducerId                  KafkaError = 59
+	ReassignmentInProgress             KafkaError = 60
+	DelegationTokenAuthDisabled        KafkaError = 61
+	DelegationTokenNotFound            KafkaError = 62
+	DelegationTokenOwnerMismatch       KafkaError = 63
+	DelegationTokenRequestNotAllowed   KafkaError = 64
+	DelegationTokenAuthorizationFailed KafkaError = 65
+	DelegationTokenExpired             KafkaError = 66
+	InvalidPrincipalType               KafkaError = 67
+	NonEmptyGroup                      KafkaError = 68
+	GroupIdNotFound                    KafkaError = 69
+	FetchSessionIDNotFound             KafkaError = 70
+	InvalidFetchSessionEpoch           KafkaError = 71
+	ListenerNotFound                   KafkaError = 72
+	TopicDeletionDisabled              KafkaError = 73
+	FencedLeaderEpoch                  KafkaError = 74
+	UnknownLeaderEpoch                 KafkaError = 75
+	UnsupportedCompressionType         KafkaError = 76
+	StaleBrokerEpoch                   KafkaError = 77
+	OffsetNotAvailable                 KafkaError = 78
+	MemberIDRequired                   KafkaError = 79
+	PreferredLeaderNotAvailable        KafkaError = 80
+	GroupMaxSizeReached                KafkaError = 81
+	FencedInstanceID                   KafkaError = 82
+	EligibleLeadersNotAvailable        KafkaError = 83
+	ElectionNotNeeded                  KafkaError = 84
+	NoReassignmentInProgress           KafkaError = 85
+	GroupSubscribedToTopic             KafkaError = 86
+	InvalidRecord                      KafkaError = 87
+	UnstableOffsetCommit               KafkaError = 88
+	ThrottlingQuotaExceeded            KafkaError = 89
+	ProducerFenced                     KafkaError = 90
+	ResourceNotFound                   KafkaError = 91
+	DuplicateResource                  KafkaError = 92
+	UnacceptableCredential             KafkaError = 93
+	InconsistentVoterSet               KafkaError = 94
+	InvalidUpdateVersion               KafkaError = 95
+	FeatureUpdateFailed                KafkaError = 96
+	PrincipalDeserializationFailure    KafkaError = 97
+	SnapshotNotFound                   KafkaError = 98
+	PositionOutOfRange                 KafkaError = 99
+	UnknownTopicID                     KafkaError = 100
+	DuplicateBrokerRegistration        KafkaError = 101
+	BrokerIDNotRegistered              KafkaError = 102
+	InconsistentTopicID                KafkaError = 103
+	InconsistentClusterID              KafkaError = 104
+	TransactionalIDNotFound            KafkaError = 105
+	FetchSessionTopicIDError           KafkaError = 106
 )
 
-// Error satisfies the error interface.
-func (e Error) Error() string {
+// KafkaError satisfies the error interface.
+func (e KafkaError) Error() string {
 	return fmt.Sprintf("[%d] %s: %s", e, e.Title(), e.Description())
 }
 
 // Timeout returns true if the error was due to a timeout.
-func (e Error) Timeout() bool {
+func (e KafkaError) Timeout() bool {
 	return e == RequestTimedOut
 }
 
@@ -135,7 +135,7 @@ func (e Error) Timeout() bool {
 // if retried at a later time.
 // Kafka error documentation specifies these as "retriable"
 // https://kafka.apache.org/protocol#protocol_error_codes
-func (e Error) Temporary() bool {
+func (e KafkaError) Temporary() bool {
 	switch e {
 	case InvalidMessage,
 		UnknownTopicOrPartition,
@@ -173,7 +173,7 @@ func (e Error) Temporary() bool {
 }
 
 // Title returns a human readable title for the error.
-func (e Error) Title() string {
+func (e KafkaError) Title() string {
 	switch e {
 	case Unknown:
 		return "Unknown"
@@ -286,7 +286,7 @@ func (e Error) Title() string {
 	case BrokerAuthorizationFailed:
 		return "Broker Authorization Failed"
 	case KafkaStorageError:
-		return "Kafka Storage Error"
+		return "Kafka Storage KafkaError"
 	case LogDirNotFound:
 		return "Log Dir Not Found"
 	case SASLAuthenticationFailed:
@@ -376,13 +376,13 @@ func (e Error) Title() string {
 	case TransactionalIDNotFound:
 		return "Transactional ID Not Found"
 	case FetchSessionTopicIDError:
-		return "Fetch Session Topic ID Error"
+		return "Fetch Session Topic ID KafkaError"
 	}
 	return ""
 }
 
 // Description returns a human readable description of cause of the error.
-func (e Error) Description() string {
+func (e KafkaError) Description() string {
 	switch e {
 	case Unknown:
 		return "an unexpected server error occurred"
@@ -656,16 +656,13 @@ func (e MessageTooLargeError) Error() string {
 }
 
 type UnknownTopicOrPartitionError struct {
+	KafkaError
 	Topic     string
 	Partition *int
 }
 
 func unknownTopicOrPartition(topic string, partition *int) UnknownTopicOrPartitionError {
-	return UnknownTopicOrPartitionError{Topic: topic, Partition: partition}
-}
-
-func (e UnknownTopicOrPartitionError) Error() string {
-	return UnknownTopicOrPartition.Error()
+	return UnknownTopicOrPartitionError{KafkaError: UnknownTopicOrPartition, Topic: topic, Partition: partition}
 }
 
 func (e UnknownTopicOrPartitionError) Is(err error) bool {
@@ -677,30 +674,14 @@ func (e UnknownTopicOrPartitionError) Is(err error) bool {
 	return errors.As(err, &unknownTopicOrPartitionError)
 }
 
-func (e UnknownTopicOrPartitionError) Title() string {
-	return UnknownTopicOrPartition.Title()
-}
-
-func (e UnknownTopicOrPartitionError) Description() string {
-	return UnknownTopicOrPartition.Description()
-}
-
-func (e UnknownTopicOrPartitionError) Timeout() bool {
-	return UnknownTopicOrPartition.Timeout()
-}
-
-func (e UnknownTopicOrPartitionError) Temporary() bool {
-	return UnknownTopicOrPartition.Temporary()
-}
-
 func makeError(code int16, message string) error {
 	if code == 0 {
 		return nil
 	}
 	if message == "" {
-		return Error(code)
+		return KafkaError(code)
 	}
-	return fmt.Errorf("%w: %s", Error(code), message)
+	return fmt.Errorf("%w: %s", KafkaError(code), message)
 }
 
 // WriteError is returned by kafka.(*Writer).WriteMessages when the writer is

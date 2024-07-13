@@ -70,7 +70,7 @@ func (c *Client) Heartbeat(ctx context.Context, req *HeartbeatRequest) (*Heartbe
 	}
 
 	if res.ErrorCode != 0 {
-		ret.Error = Error(res.ErrorCode)
+		ret.Error = KafkaError(res.ErrorCode)
 	}
 
 	return ret, nil

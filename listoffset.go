@@ -169,7 +169,7 @@ func (c *Client) ListOffsets(ctx context.Context, req *ListOffsetsRequest) (*Lis
 			}
 
 			if p.ErrorCode != 0 {
-				partition.Error = Error(p.ErrorCode)
+				partition.Error = KafkaError(p.ErrorCode)
 			}
 
 			partitionOffsets[key] = partition

@@ -365,7 +365,7 @@ func (g *Generation) close() {
 //
 // The provided function MUST support cancellation via the ctx argument and exit
 // in a timely manner once the ctx is complete.  When the context is closed, the
-// context's Error() function will return ErrGenerationEnded.
+// context's KafkaError() function will return ErrGenerationEnded.
 //
 // When closing out a generation, the consumer group will wait for all functions
 // launched by Start to exit before the group can move on and join the next
@@ -536,7 +536,7 @@ func (g *Generation) partitionWatcher(interval time.Duration, topic string) {
 					g.logError(func(l Logger) {
 						l.Printf("Problem getting partitions while checking for changes, %v", err)
 					})
-					var kafkaError Error
+					var kafkaError KafkaError
 					if errors.As(err, &kafkaError) {
 						continue
 					}
@@ -910,7 +910,7 @@ func (cg *ConsumerGroup) coordinator() (coordinator, error) {
 		CoordinatorKey: cg.config.ID,
 	})
 	if err == nil && out.ErrorCode != 0 {
-		err = Error(out.ErrorCode)
+		err = KafkaError(out.ErrorCode)
 	}
 	if err != nil {
 		return nil, err
@@ -925,12 +925,12 @@ func (cg *ConsumerGroup) coordinator() (coordinator, error) {
 // the leader.  Otherwise, GroupMemberAssignments will be nil.
 //
 // Possible kafka error codes returned:
-//  * GroupLoadInProgress:
-//  * GroupCoordinatorNotAvailable:
-//  * NotCoordinatorForGroup:
-//  * InconsistentGroupProtocol:
-//  * InvalidSessionTimeout:
-//  * GroupAuthorizationFailed:
+//   - GroupLoadInProgress:
+//   - GroupCoordinatorNotAvailable:
+//   - NotCoordinatorForGroup:
+//   - InconsistentGroupProtocol:
+//   - InvalidSessionTimeout:
+//   - GroupAuthorizationFailed:
 func (cg *ConsumerGroup) joinGroup(conn coordinator, memberID string) (string, int32, GroupMemberAssignments, error) {
 	request, err := cg.makeJoinGroupRequestV1(memberID)
 	if err != nil {
@@ -939,7 +939,7 @@ func (cg *ConsumerGroup) joinGroup(conn coordinator, memberID string) (string, i
 
 	response, err := conn.joinGroup(request)
 	if err == nil && response.ErrorCode != 0 {
-		err = Error(response.ErrorCode)
+		err = KafkaError(response.ErrorCode)
 	}
 	if err != nil {
 		return "", 0, nil, err
@@ -1073,16 +1073,16 @@ func (cg *ConsumerGroup) makeMemberProtocolMetadata(in []joinGroupResponseMember
 // Readers subscriptions topic => partitions
 //
 // Possible kafka error codes returned:
-//  * GroupCoordinatorNotAvailable:
-//  * NotCoordinatorForGroup:
-//  * IllegalGeneration:
-//  * RebalanceInProgress:
-//  * GroupAuthorizationFailed:
+//   - GroupCoordinatorNotAvailable:
+//   - NotCoordinatorForGroup:
+//   - IllegalGeneration:
+//   - RebalanceInProgress:
+//   - GroupAuthorizationFailed:
 func (cg *ConsumerGroup) syncGroup(conn coordinator, memberID string, generationID int32, memberAssignments GroupMemberAssignments) (map[string][]int32, error) {
 	request := cg.makeSyncGroupRequestV0(memberID, generationID, memberAssignments)
 	response, err := conn.syncGroup(request)
 	if err == nil && response.ErrorCode != 0 {
-		err = Error(response.ErrorCode)
+		err = KafkaError(response.ErrorCode)
 	}
 	if err != nil {
 		return nil, err

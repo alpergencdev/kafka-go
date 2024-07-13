@@ -73,7 +73,7 @@ func clientCreateTopic(client *kafka.Client, topic string, partitions int) error
 
 	// Topic creation seems to be asynchronous. Metadata for the topic partition
 	// layout in the cluster is available in the controller before being synced
-	// with the other brokers, which causes "Error:[3] Unknown Topic Or Partition"
+	// with the other brokers, which causes "KafkaError:[3] Unknown Topic Or Partition"
 	// when sending requests to the partition leaders.
 	//
 	// This loop will wait up to 2 seconds polling the cluster until no errors

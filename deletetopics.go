@@ -59,7 +59,7 @@ func (c *Client) DeleteTopics(ctx context.Context, req *DeleteTopicsRequest) (*D
 		if t.ErrorCode == 0 {
 			ret.Errors[t.Name] = nil
 		} else {
-			ret.Errors[t.Name] = Error(t.ErrorCode)
+			ret.Errors[t.Name] = KafkaError(t.ErrorCode)
 		}
 	}
 
@@ -168,7 +168,7 @@ func (c *Conn) deleteTopics(request deleteTopicsRequestV0) (deleteTopicsResponse
 	}
 	for _, c := range response.TopicErrorCodes {
 		if c.ErrorCode != 0 {
-			return response, Error(c.ErrorCode)
+			return response, KafkaError(c.ErrorCode)
 		}
 	}
 	return response, nil

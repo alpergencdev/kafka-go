@@ -760,7 +760,7 @@ func (w *Writer) partitions(ctx context.Context, topic string) (int, error) {
 		if t.Name == topic {
 			// This should always hit, unless kafka has a bug.
 			if t.ErrorCode != 0 {
-				return 0, Error(t.ErrorCode)
+				return 0, KafkaError(t.ErrorCode)
 			}
 			return len(t.Partitions), nil
 		}

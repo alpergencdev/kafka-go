@@ -351,7 +351,7 @@ func readFetchResponseHeaderV2(r *bufio.Reader, size int) (throttle int32, water
 	}
 
 	if p.ErrorCode != 0 {
-		err = Error(p.ErrorCode)
+		err = KafkaError(p.ErrorCode)
 		return
 	}
 
@@ -436,7 +436,7 @@ func readFetchResponseHeaderV5(r *bufio.Reader, size int) (throttle int32, water
 	}
 
 	if p.ErrorCode != 0 {
-		err = Error(p.ErrorCode)
+		err = KafkaError(p.ErrorCode)
 		return
 	}
 
@@ -482,7 +482,7 @@ func readFetchResponseHeaderV10(r *bufio.Reader, size int) (throttle int32, wate
 		return
 	}
 	if errorCode != 0 {
-		err = Error(errorCode)
+		err = KafkaError(errorCode)
 		return
 	}
 
@@ -540,7 +540,7 @@ func readFetchResponseHeaderV10(r *bufio.Reader, size int) (throttle int32, wate
 	}
 
 	if p.ErrorCode != 0 {
-		err = Error(p.ErrorCode)
+		err = KafkaError(p.ErrorCode)
 		return
 	}
 

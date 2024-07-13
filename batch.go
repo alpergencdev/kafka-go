@@ -100,7 +100,7 @@ func (batch *Batch) close() (err error) {
 		conn.mutex.Unlock()
 
 		if err != nil {
-			var kafkaError Error
+			var kafkaError KafkaError
 			if !errors.As(err, &kafkaError) && !errors.Is(err, io.ErrShortBuffer) {
 				conn.Close()
 			}

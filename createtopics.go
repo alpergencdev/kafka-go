@@ -365,7 +365,7 @@ func (c *Conn) createTopics(request createTopicsRequestV0) (createTopicsResponse
 			continue
 		}
 		if tr.ErrorCode != 0 {
-			return response, Error(tr.ErrorCode)
+			return response, KafkaError(tr.ErrorCode)
 		}
 	}
 

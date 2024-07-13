@@ -6,7 +6,7 @@ import (
 )
 
 func TestError(t *testing.T) {
-	errorCodes := []Error{
+	errorCodes := []KafkaError{
 		Unknown,
 		OffsetOutOfRange,
 		InvalidMessage,
@@ -100,7 +100,7 @@ func TestError(t *testing.T) {
 	}
 
 	t.Run("verify that an invalid error code has an empty title and description", func(t *testing.T) {
-		err := Error(-2)
+		err := KafkaError(-2)
 
 		if s := err.Title(); len(s) != 0 {
 			t.Error("non-empty title:", s)

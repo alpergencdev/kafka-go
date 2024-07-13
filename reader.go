@@ -1421,7 +1421,7 @@ func (r *reader) run(ctx context.Context, offset int64) {
 				break readLoop
 
 			default:
-				var kafkaError Error
+				var kafkaError KafkaError
 				if errors.As(err, &kafkaError) {
 					r.sendError(ctx, err)
 				} else {

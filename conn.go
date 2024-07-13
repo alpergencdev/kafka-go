@@ -333,7 +333,7 @@ func (c *Conn) findCoordinator(request findCoordinatorRequestV0) (findCoordinato
 		return findCoordinatorResponseV0{}, err
 	}
 	if response.ErrorCode != 0 {
-		return findCoordinatorResponseV0{}, Error(response.ErrorCode)
+		return findCoordinatorResponseV0{}, KafkaError(response.ErrorCode)
 	}
 
 	return response, nil
@@ -359,7 +359,7 @@ func (c *Conn) heartbeat(request heartbeatRequestV0) (heartbeatResponseV0, error
 		return heartbeatResponseV0{}, err
 	}
 	if response.ErrorCode != 0 {
-		return heartbeatResponseV0{}, Error(response.ErrorCode)
+		return heartbeatResponseV0{}, KafkaError(response.ErrorCode)
 	}
 
 	return response, nil
@@ -385,7 +385,7 @@ func (c *Conn) joinGroup(request joinGroupRequestV1) (joinGroupResponseV1, error
 		return joinGroupResponseV1{}, err
 	}
 	if response.ErrorCode != 0 {
-		return joinGroupResponseV1{}, Error(response.ErrorCode)
+		return joinGroupResponseV1{}, KafkaError(response.ErrorCode)
 	}
 
 	return response, nil
@@ -411,7 +411,7 @@ func (c *Conn) leaveGroup(request leaveGroupRequestV0) (leaveGroupResponseV0, er
 		return leaveGroupResponseV0{}, err
 	}
 	if response.ErrorCode != 0 {
-		return leaveGroupResponseV0{}, Error(response.ErrorCode)
+		return leaveGroupResponseV0{}, KafkaError(response.ErrorCode)
 	}
 
 	return response, nil
@@ -437,7 +437,7 @@ func (c *Conn) listGroups(request listGroupsRequestV1) (listGroupsResponseV1, er
 		return listGroupsResponseV1{}, err
 	}
 	if response.ErrorCode != 0 {
-		return listGroupsResponseV1{}, Error(response.ErrorCode)
+		return listGroupsResponseV1{}, KafkaError(response.ErrorCode)
 	}
 
 	return response, nil
@@ -465,7 +465,7 @@ func (c *Conn) offsetCommit(request offsetCommitRequestV2) (offsetCommitResponse
 	for _, r := range response.Responses {
 		for _, pr := range r.PartitionResponses {
 			if pr.ErrorCode != 0 {
-				return offsetCommitResponseV2{}, Error(pr.ErrorCode)
+				return offsetCommitResponseV2{}, KafkaError(pr.ErrorCode)
 			}
 		}
 	}
@@ -496,7 +496,7 @@ func (c *Conn) offsetFetch(request offsetFetchRequestV1) (offsetFetchResponseV1,
 	for _, r := range response.Responses {
 		for _, pr := range r.PartitionResponses {
 			if pr.ErrorCode != 0 {
-				return offsetFetchResponseV1{}, Error(pr.ErrorCode)
+				return offsetFetchResponseV1{}, KafkaError(pr.ErrorCode)
 			}
 		}
 	}
@@ -524,7 +524,7 @@ func (c *Conn) syncGroup(request syncGroupRequestV0) (syncGroupResponseV0, error
 		return syncGroupResponseV0{}, err
 	}
 	if response.ErrorCode != 0 {
-		return syncGroupResponseV0{}, Error(response.ErrorCode)
+		return syncGroupResponseV0{}, KafkaError(response.ErrorCode)
 	}
 
 	return response, nil
@@ -549,7 +549,7 @@ func (c *Conn) RemoteAddr() net.Addr {
 // It is equivalent to calling both SetReadDeadline and SetWriteDeadline.
 //
 // A deadline is an absolute time after which I/O operations fail with a timeout
-// (see type Error) instead of blocking. The deadline applies to all future and
+// (see type KafkaError) instead of blocking. The deadline applies to all future and
 // pending I/O, not just the immediately following call to Read or Write. After
 // a deadline has been exceeded, the connection may be closed if it was found to
 // be in an unrecoverable state.
@@ -941,7 +941,7 @@ func (c *Conn) readOffset(t int64) (offset int64, err error) {
 						return size, err
 					}
 					if p.ErrorCode != 0 {
-						return size, Error(p.ErrorCode)
+						return size, KafkaError(p.ErrorCode)
 					}
 					offset = p.Offset
 					return size, nil
@@ -1030,7 +1030,7 @@ func (c *Conn) readTopicMetadatav1(brokers map[int32]Broker, topicMetadata []top
 			// We only report errors if they happened for the topic of
 			// the connection, otherwise the topic will simply have no
 			// partitions in the result set.
-			return nil, Error(t.TopicErrorCode)
+			return nil, KafkaError(t.TopicErrorCode)
 		}
 		for _, p := range t.Partitions {
 			partitions = append(partitions, Partition{
@@ -1052,7 +1052,7 @@ func (c *Conn) readTopicMetadatav6(brokers map[int32]Broker, topicMetadata []top
 			// We only report errors if they happened for the topic of
 			// the connection, otherwise the topic will simply have no
 			// partitions in the result set.
-			return nil, Error(t.TopicErrorCode)
+			return nil, KafkaError(t.TopicErrorCode)
 		}
 		for _, p := range t.Partitions {
 			partitions = append(partitions, Partition{
@@ -1226,7 +1226,7 @@ func (c *Conn) writeCompressedMessages(codec CompressionCodec, msgs ...Message) 
 						var p produceResponsePartitionV7
 						size, err := p.readFrom(r, size)
 						if err == nil && p.ErrorCode != 0 {
-							err = Error(p.ErrorCode)
+							err = KafkaError(p.ErrorCode)
 						}
 						if err == nil {
 							partition = p.Partition
@@ -1238,7 +1238,7 @@ func (c *Conn) writeCompressedMessages(codec CompressionCodec, msgs ...Message) 
 						var p produceResponsePartitionV2
 						size, err := p.readFrom(r, size)
 						if err == nil && p.ErrorCode != 0 {
-							err = Error(p.ErrorCode)
+							err = KafkaError(p.ErrorCode)
 						}
 						if err == nil {
 							partition = p.Partition
@@ -1290,7 +1290,7 @@ func (c *Conn) writeRequest(apiKey apiKey, apiVersion apiVersion, correlationID 
 func (c *Conn) readResponse(size int, res interface{}) error {
 	size, err := read(&c.rbuf, size, res)
 	if err != nil {
-		var kafkaError Error
+		var kafkaError KafkaError
 		if errors.As(err, &kafkaError) {
 			size, err = discardN(&c.rbuf, size, size)
 		}
@@ -1351,7 +1351,7 @@ func (c *Conn) do(d *connDeadline, write func(time.Time, int32) error, read func
 	}
 
 	if err = read(deadline, size); err != nil {
-		var kafkaError Error
+		var kafkaError KafkaError
 		if !errors.As(err, &kafkaError) {
 			c.conn.Close()
 		}
@@ -1488,7 +1488,7 @@ func (c *Conn) ApiVersions() ([]ApiVersion, error) {
 	}
 
 	if errorCode != 0 {
-		return r, Error(errorCode)
+		return r, KafkaError(errorCode)
 	}
 
 	return r, nil
@@ -1588,7 +1588,7 @@ func (c *Conn) saslHandshake(mechanism string) error {
 		},
 	)
 	if err == nil && resp.ErrorCode != 0 {
-		err = Error(resp.ErrorCode)
+		err = KafkaError(resp.ErrorCode)
 	}
 	return err
 }
@@ -1620,7 +1620,7 @@ func (c *Conn) saslAuthenticate(data []byte) ([]byte, error) {
 			},
 		)
 		if err == nil && response.ErrorCode != 0 {
-			err = Error(response.ErrorCode)
+			err = KafkaError(response.ErrorCode)
 		}
 		return response.Data, err
 	}

@@ -1200,7 +1200,7 @@ func (g *connGroup) connect(ctx context.Context, addr net.Addr) (*conn, error) {
 	ver := make(map[protocol.ApiKey]int16, len(res.ApiKeys))
 
 	if res.ErrorCode != 0 {
-		return nil, fmt.Errorf("negotating API versions with kafka broker at %s: %w", g.addr, Error(res.ErrorCode))
+		return nil, fmt.Errorf("negotating API versions with kafka broker at %s: %w", g.addr, KafkaError(res.ErrorCode))
 	}
 
 	for _, r := range res.ApiKeys {
@@ -1337,7 +1337,7 @@ func saslHandshakeRoundTrip(pc *protocol.Conn, mechanism string) error {
 	}
 	res := msg.(*saslhandshake.Response)
 	if res.ErrorCode != 0 {
-		err = Error(res.ErrorCode)
+		err = KafkaError(res.ErrorCode)
 	}
 	return err
 }
